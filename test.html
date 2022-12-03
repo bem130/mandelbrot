@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <canvas id="imgOut"></canvas>
+    </body>
+</html>
+<script>
+
+
+function get(x,y) {
+    let z = [0,0];
+    for (let i=0;i<100;i+=0.01) {
+        z = [z[0]**2-z[1]**2+x,2*z[0]*z[1]+y]
+        if (z[0]**2+z[1]**2>100) {
+            return [i*10*16,i*10*64,i*10*128]
+        }
+    }
+    return [0,0,0]
+}
+
+
+
+function mkimg(x,y) {
+        let iarr = new Uint8ClampedArray(x*y*4);
+        for (let iy = 0; iy < y; iy++) {
+            for (let ix = 0; ix < x; ix++) {
+                let index = (iy*x+ix)*4; // index of position [ix,iy]
+                let c = get((ix-220)/100,(iy-150)/100)
+                iarr[index+0] = c[0]; // Red
+                iarr[index+1] = c[1]; // Green
+                iarr[index+2] = c[2]; // Blue
+                iarr[index+3] = 255; // Alpha
+            }
+        }
+        let co = document.getElementById("imgOut");
+        co.height=y;co.width=x;co.getContext('2d').putImageData(new ImageData(iarr,x,y),0,0);
+    }
+mkimg(300,300)
+
+
+
+</script>
+<style>
+    #imgOut {
+        border: 1px solid;
+    }
+</style>
