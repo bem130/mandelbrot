@@ -1,6 +1,9 @@
+<!-- bem130,2022.12.3 -->
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <title>Mandelbrot Set render</title>
     </head>
     <body>
         <canvas id="imgOut"></canvas>
@@ -8,16 +11,6 @@
 </html>
 <script>
 
-function get(x,y) {
-    let z = [0,0];
-    for (let i=0;i<100;i+=0.001) {
-        z = [z[0]**2-z[1]**2+x,2*z[0]*z[1]+y]
-        if (z[0]**2+z[1]**2>1000) {
-            return [i*100*16,i*100*64,i*100*128]
-        }
-    }
-    return [0,0,0]
-}
 function get(x,y) {
     let z = [0,0];
     for (let i=0;i<100;i+=0.01) {
@@ -53,6 +46,6 @@ mkimg(Math.floor(size*10/7),size)
 </script>
 <style>
     #imgOut {
-        border: 1px solid;
+        width: 100%;
     }
 </style>
