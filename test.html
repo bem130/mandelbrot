@@ -8,26 +8,35 @@
 </html>
 <script>
 
-
+function get(x,y) {
+    let z = [0,0];
+    for (let i=0;i<100;i+=0.001) {
+        z = [z[0]**2-z[1]**2+x,2*z[0]*z[1]+y]
+        if (z[0]**2+z[1]**2>1000) {
+            return [i*100*16,i*100*64,i*100*128]
+        }
+    }
+    return [0,0,0]
+}
 function get(x,y) {
     let z = [0,0];
     for (let i=0;i<100;i+=0.01) {
         z = [z[0]**2-z[1]**2+x,2*z[0]*z[1]+y]
-        if (z[0]**2+z[1]**2>100) {
-            return [i*10*16,i*10*64,i*10*128]
+        if (z[0]**2+z[1]**2>1000) {
+            return [70+i*10*16,80+i*10*64,100+i*10*64]
         }
     }
     return [0,0,0]
 }
 
-
-
 function mkimg(x,y) {
+        let s = Math.min(x,y)
         let iarr = new Uint8ClampedArray(x*y*4);
+        let offset = [x/1.4,y/2]
         for (let iy = 0; iy < y; iy++) {
             for (let ix = 0; ix < x; ix++) {
                 let index = (iy*x+ix)*4; // index of position [ix,iy]
-                let c = get((ix-220)/100,(iy-150)/100)
+                let c = get((ix-offset[0])/s*3,(iy-offset[1])/s*3)
                 iarr[index+0] = c[0]; // Red
                 iarr[index+1] = c[1]; // Green
                 iarr[index+2] = c[2]; // Blue
@@ -37,9 +46,9 @@ function mkimg(x,y) {
         let co = document.getElementById("imgOut");
         co.height=y;co.width=x;co.getContext('2d').putImageData(new ImageData(iarr,x,y),0,0);
     }
-mkimg(300,300)
 
-
+let size = 400
+mkimg(Math.floor(size*10/7),size)
 
 </script>
 <style>
