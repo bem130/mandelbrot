@@ -8,6 +8,10 @@
         <title>Mandelbrot Set render</title>
     </head>
     <body>
+        <h1>
+            Mandelbrot Set render
+        </h1>
+        <a href="https://github.com/bem130/mandelbrot">github</a>
         <canvas id="imgOut"></canvas>
     </body>
 </html>
@@ -16,7 +20,7 @@ function get(x,y) {
     let z = [0,0];
     for (let i=0;i<100;i+=1) {
         z = [z[0]**2-z[1]**2+x,2*z[0]*z[1]+y]
-        if (z[0]**2+z[1]**2>100000) {
+        if (z[0]**2+z[1]**2>100) {
             return [70+i*0.1*16,80+i*0.1*64,100+i*0.1*64];
         }
     }
@@ -39,11 +43,24 @@ function mkimg(x,y) {
     let co = document.getElementById("imgOut");
     co.height=y;co.width=x;co.getContext('2d').putImageData(new ImageData(iarr,x,y),0,0);
 }
-let size = 3000;
-mkimg(Math.floor(size*10/7),size);
+let html = document.getElementsByTagName("html")[0]
+window.onresize = function() {
+    mkimg(Math.min(html.clientWidth),Math.min(html.clientHeight));
+}
+window.onresize();
 </script>
 <style>
     #imgOut {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
+        z-index: -1;
+    }
+    body {
+        color: aliceblue;
+    }
+    a {
+        color: rgb(173, 233, 255);
     }
 </style>
